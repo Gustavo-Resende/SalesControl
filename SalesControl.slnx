@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="src/SalesControl.Application/SalesControl.Application.csproj" />
+  <Project Path="src/SalesControl.Domain/SalesControl.Domain.csproj" />
+  <Project Path="src/SalesControl.Infrastructure/SalesControl.Infrastructure.csproj" />
+  <Project Path="src/SalesControl.Tests/SalesControl.Tests.csproj" />
+  <Project Path="src/SalesControl.UI/SalesControl.UI.csproj" />
+</Solution>
