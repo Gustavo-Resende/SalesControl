@@ -1,5 +1,3 @@
-using System;
-using Xunit;
 using SalesControl.Domain.ProductAggregate;
 
 namespace SalesControl.Tests.Domain

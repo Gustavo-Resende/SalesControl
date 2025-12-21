@@ -1,5 +1,4 @@
 using SalesControl.Domain.SaleAggregate;
-using SalesControl.Domain.SaleItemAggregate;
 
 namespace SalesControl.Tests.Domain
 {
@@ -20,7 +19,7 @@ namespace SalesControl.Tests.Domain
         }
 
         [Fact]
-        public void Create_NoItems_Throws()
+        public void Create_NoItems_IsEmpty()
         {
             var clientId = Guid.NewGuid();
             var sale = new Sale(clientId);
