@@ -8,8 +8,11 @@ namespace SalesControl.Tests.Domain
         [Fact]
         public void Create_Valid()
         {
-            var item = new SaleItem(Guid.NewGuid(), 2, 5.5m);
-            var sale = new Sale(Guid.NewGuid(), new List<SaleItem> { item });
+            var clientId = Guid.NewGuid();
+            var sale = new Sale(clientId);
+
+            var productId = Guid.NewGuid();
+            sale.AddItem(productId, 2, 5.5m);
 
             Assert.NotEqual(Guid.Empty, sale.Id);
             Assert.Equal(11m, sale.Total);
@@ -19,7 +22,9 @@ namespace SalesControl.Tests.Domain
         [Fact]
         public void Create_NoItems_Throws()
         {
-            Assert.ThrowsAny<ArgumentException>(() => new Sale(Guid.NewGuid(), new List<SaleItem>()));
+            var clientId = Guid.NewGuid();
+            var sale = new Sale(clientId);
+            Assert.Empty(sale.Items);
         }
     }
 }

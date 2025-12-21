@@ -5,7 +5,7 @@ namespace SalesControl.Domain.SaleItemAggregate
 {
     public class SaleItem : EntityBase<Guid>
     {
-        public SaleItem(Guid productId, int quantity, decimal unitPrice)
+        internal SaleItem(Guid productId, int quantity, decimal unitPrice)
         {
             Guard.Against.Default(productId, nameof(productId));
             Guard.Against.NegativeOrZero(quantity, nameof(quantity));
@@ -26,18 +26,19 @@ namespace SalesControl.Domain.SaleItemAggregate
         public DateTimeOffset CreatedAt { get; private set; }
         public DateTimeOffset UpdatedAt { get; private set; }
 
-        public void UpdateQuantity(int newQuantity)
+        internal void UpdateQuantity(int newQuantity)
         {
             Guard.Against.NegativeOrZero(newQuantity, nameof(newQuantity));
             Quantity = newQuantity;
             UpdatedAt = DateTimeOffset.UtcNow;
         }
 
-        public void UpdateUnitPrice(decimal newPrice)
+        internal void UpdateUnitPrice(decimal newPrice)
         {
             Guard.Against.NegativeOrZero(newPrice, nameof(newPrice));
             UnitPrice = newPrice;
             UpdatedAt = DateTimeOffset.UtcNow;
         }
+
     }
 }

@@ -5,26 +5,62 @@ namespace SalesControl.Domain.SaleAggregate
 {
     public class Sale : EntityBase<Guid>, IAggregateRoot
     {
-        public Sale(Guid clientId, IEnumerable<SaleItem> items)
+        private readonly List<SaleItem> _items = new();
+        public IReadOnlyList<SaleItem> Items => _items.AsReadOnly();
+
+        public Sale(Guid clientId)
         {
             Guard.Against.Default(clientId, nameof(clientId));
-            Guard.Against.Null(items, nameof(items));
-
-            var list = items.ToList();
-            Guard.Against.NullOrEmpty(list, nameof(items));
 
             Id = Guid.NewGuid();
             ClientId = clientId;
-            Items = list.AsReadOnly();
             CreatedAt = DateTimeOffset.UtcNow;
             UpdatedAt = CreatedAt;
         }
 
         public Guid ClientId { get; private set; }
-        public IReadOnlyList<SaleItem> Items { get; private set; }
         public DateTimeOffset CreatedAt { get; private set; }
         public DateTimeOffset UpdatedAt { get; private set; }
 
-        public decimal Total => Items?.Sum(i => i.Subtotal) ?? 0m;
+        public decimal Total => _items.Sum(i => i.Subtotal);
+
+        public void AddItem(Guid productId, int quantity, decimal unitPrice)
+        {
+            Guard.Against.Default(productId, nameof(productId));
+            Guard.Against.NegativeOrZero(quantity, nameof(quantity));
+            Guard.Against.NegativeOrZero(unitPrice, nameof(unitPrice));
+
+            // evita duplicidade por productId
+            var existing = _items.FirstOrDefault(i => i.ProductId == productId);
+            if (existing != null)
+            {
+                existing.UpdateQuantity(existing.Quantity + quantity);
+            }
+            else
+            {
+                var item = new SaleItem(productId, quantity, unitPrice);
+                _items.Add(item);
+            }
+
+            UpdatedAt = DateTimeOffset.UtcNow;
+        }
+
+        public void UpdateItemQuantity(Guid saleItemId, int newQuantity)
+        {
+            var item = _items.FirstOrDefault(i => i.Id == saleItemId)
+                ?? throw new InvalidOperationException("Item não encontrado na venda.");
+
+            item.UpdateQuantity(newQuantity);
+            UpdatedAt = DateTimeOffset.UtcNow;
+        }
+
+        public void RemoveItem(Guid saleItemId)
+        {
+            var item = _items.FirstOrDefault(i => i.Id == saleItemId)
+                ?? throw new InvalidOperationException("Item não encontrado na venda.");
+
+            _items.Remove(item);
+            UpdatedAt = DateTimeOffset.UtcNow;
+        }
     }
 }
