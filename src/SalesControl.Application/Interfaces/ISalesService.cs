@@ -1,11 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using SalesControl.Application.Sales.DTOs;
 
 namespace SalesControl.Application.Interfaces
 {
-    internal interface ISalesService
+    public interface ISalesService
     {
         Task<Guid> RegisterSaleAsync(RegisterSaleDto dto, CancellationToken cancellationToken = default);
+
+        Task<SaleDetailDto?> GetSaleByIdAsync(Guid saleId, CancellationToken cancellationToken = default);
     }
 }
