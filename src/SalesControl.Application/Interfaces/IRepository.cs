@@ -1,6 +1,7 @@
 ﻿using Ardalis.Specification;
+using SalesControl.Domain;
 
-namespace SalesControl.Domain.Interfaces;
+namespace SalesControl.Application.Interfaces;
 
 /// <summary>
 /// Uma abstração para persistência, baseada em Specification.

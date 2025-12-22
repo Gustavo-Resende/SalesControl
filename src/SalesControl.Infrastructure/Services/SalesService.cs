@@ -1,7 +1,10 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
+using SalesControl.Application.Interfaces;
+using SalesControl.Application.Sales.DTOs;
 using SalesControl.Domain.SaleAggregate;
 using SalesControl.Infrastructure.Persistence;
+using System.Linq;
 
 namespace SalesControl.Infrastructure.Services
 {
@@ -68,6 +71,38 @@ namespace SalesControl.Infrastructure.Services
                 await tx.RollbackAsync(cancellationToken);
                 throw;
             }
+        }
+
+        public async Task<SaleDetailDto?> GetSaleByIdAsync(Guid saleId, CancellationToken cancellationToken = default)
+        {
+            if (saleId == Guid.Empty) return null;
+
+            // Query sale and its items with product data
+            var sale = await _db.Sales
+                .AsNoTracking()
+                .Where(s => s.Id == saleId)
+                .Select(s => new
+                {
+                    s.Id,
+                    s.ClientId,
+                    s.CreatedAt
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (sale is null) return null;
+
+            var items = await _db.SaleItems
+                .AsNoTracking()
+                .Where(si => EF.Property<Guid>(si, "sale_id") == saleId)
+                .Join(_db.Products.AsNoTracking(),
+                      si => si.ProductId,
+                      p => p.Id,
+                      (si, p) => new SaleItemDetailDto(p.Id, p.Name, si.Quantity, si.UnitPrice, si.Quantity * si.UnitPrice))
+                .ToListAsync(cancellationToken);
+
+            var total = items.Sum(i => i.LineTotal);
+
+            return new SaleDetailDto(sale.Id, sale.ClientId, sale.CreatedAt, items, total);
         }
     }
 }
