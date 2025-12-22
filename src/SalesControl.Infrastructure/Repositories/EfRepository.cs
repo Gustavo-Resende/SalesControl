@@ -1,8 +1,7 @@
 using Ardalis.Specification.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using SalesControl.Domain.Interfaces;
 using SalesControl.Domain;
 using SalesControl.Infrastructure.Persistence;
+using SalesControl.Application.Interfaces;
 
 namespace SalesControl.Infrastructure.Repositories
 {
