@@ -28,7 +28,7 @@ namespace SalesControl.UI
 
         private void btnSale_Click(object sender, EventArgs e)
         {
-            var formVendas = new FormVendas();
+            var formVendas = new FormVendas(_mediator);
             formVendas.ShowDialog();
         }
 

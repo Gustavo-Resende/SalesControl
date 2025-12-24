@@ -57,6 +57,8 @@ namespace SalesControl.UI
                         typeof(SalesControl.Infrastructure.Repositories.EfRepository<>)
                     );
 
+                    services.AddScoped<SalesControl.Application.Interfaces.ISalesService, SalesControl.Infrastructure.Services.SalesService>();
+
                     // 4. Forms como Transient (cada abertura é uma nova instância)
                     services.AddTransient<FormMain>();
                     services.AddTransient<FormClientes>();

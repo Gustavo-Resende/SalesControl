@@ -21,10 +21,10 @@ namespace SalesControl.Application.Products.Commands
         {
             if (string.IsNullOrWhiteSpace(request.Name))
                 return Result<ProductOutput>.Error("Name is required.");
-            if (request.Price <= 0)
+            if (request.Price < 0)
                 return Result<ProductOutput>.Error("Price must be greater than zero.");
-            if (request.Stock < 0)
-                return Result<ProductOutput>.Error("Stock cannot be negative.");
+            if (request.Stock <= 0)
+                return Result<ProductOutput>.Error("Stock must be positive.");
 
             var product = new Product(request.Name.Trim(), request.Price, request.Stock, request.Description?.Trim());
             await _repository.AddAsync(product, cancellationToken);

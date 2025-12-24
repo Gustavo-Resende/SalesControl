@@ -50,6 +50,7 @@ namespace SalesControl.Infrastructure.Services
                     var product = products.Single(p => p.Id == item.ProductId);
                     product.DecreaseStock(item.Quantity);
                     _db.Products.Update(product);
+                    await _db.SaveChangesAsync(cancellationToken);
                 }
 
                 var sale = new Sale(dto.ClientId);
@@ -60,16 +61,20 @@ namespace SalesControl.Infrastructure.Services
                 }
 
                 await _db.Sales.AddAsync(sale, cancellationToken);
-
                 await _db.SaveChangesAsync(cancellationToken);
                 await tx.CommitAsync(cancellationToken);
 
                 return sale.Id;
             }
-            catch
+            catch (InvalidOperationException ex)
             {
                 await tx.RollbackAsync(cancellationToken);
                 throw;
+            }
+            catch (Exception ex)
+            {
+                await tx.RollbackAsync(cancellationToken);
+                throw new Exception("Erro inesperado ao registrar venda.", ex);
             }
         }
 

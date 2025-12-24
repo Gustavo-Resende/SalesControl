@@ -29,14 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            label2 = new Label();
-            label3 = new Label();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
-            comboBox3 = new ComboBox();
-            label1 = new Label();
-            button1 = new Button();
-            dataGridView1 = new DataGridView();
+            lblCliente = new Label();
+            lblItensVenda = new Label();
+            cmbClientes = new ComboBox();
+            dgvItensVenda = new DataGridView();
             itemsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             clientIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             createdAtDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -44,83 +40,64 @@
             totalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             saleBindingSource = new BindingSource(components);
-            label4 = new Label();
             button2 = new Button();
             button3 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            lblProduto = new Label();
+            cmbProdutos = new ComboBox();
+            lblQuantidade = new Label();
+            nudQuantidade = new NumericUpDown();
+            btnAdicionarItem = new Button();
+            lblTotal = new Label();
+            lblTotalValor = new Label();
+            btnCancelar = new Button();
+            btnRegistrarVenda = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvItensVenda).BeginInit();
             ((System.ComponentModel.ISupportInitialize)saleBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudQuantidade).BeginInit();
             SuspendLayout();
             // 
-            // label2
+            // lblCliente
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(57, 50);
-            label2.Name = "label2";
-            label2.Size = new Size(47, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Cliente:";
+            lblCliente.AutoSize = true;
+            lblCliente.Location = new Point(30, 42);
+            lblCliente.Name = "lblCliente";
+            lblCliente.Size = new Size(47, 15);
+            lblCliente.TabIndex = 3;
+            lblCliente.Text = "Cliente:";
             // 
-            // label3
+            // lblItensVenda
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(31, 100);
-            label3.Name = "label3";
-            label3.Size = new Size(53, 15);
-            label3.TabIndex = 4;
-            label3.Text = "Produto:";
+            lblItensVenda.AutoSize = true;
+            lblItensVenda.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblItensVenda.Location = new Point(30, 82);
+            lblItensVenda.Name = "lblItensVenda";
+            lblItensVenda.Size = new Size(112, 20);
+            lblItensVenda.TabIndex = 4;
+            lblItensVenda.Text = "Itens da Venda";
             // 
-            // comboBox1
+            // cmbClientes
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(133, 50);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(210, 23);
-            comboBox1.TabIndex = 5;
+            cmbClientes.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbClientes.FormattingEnabled = true;
+            cmbClientes.Location = new Point(120, 42);
+            cmbClientes.Name = "cmbClientes";
+            cmbClientes.Size = new Size(350, 23);
+            cmbClientes.TabIndex = 5;
             // 
-            // comboBox2
+            // dgvItensVenda
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(107, 97);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(144, 23);
-            comboBox2.TabIndex = 6;
-            // 
-            // comboBox3
-            // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(309, 97);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(55, 23);
-            comboBox3.TabIndex = 8;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(267, 103);
-            label1.Name = "label1";
-            label1.Size = new Size(36, 15);
-            label1.TabIndex = 7;
-            label1.Text = "Qtde:";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(383, 78);
-            button1.Name = "button1";
-            button1.Size = new Size(85, 59);
-            button1.TabIndex = 9;
-            button1.Text = "Adicionar";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { itemsDataGridViewTextBoxColumn, clientIdDataGridViewTextBoxColumn, createdAtDataGridViewTextBoxColumn, updatedAtDataGridViewTextBoxColumn, totalDataGridViewTextBoxColumn, idDataGridViewTextBoxColumn });
-            dataGridView1.DataSource = saleBindingSource;
-            dataGridView1.Location = new Point(12, 192);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(506, 150);
-            dataGridView1.TabIndex = 10;
+            dgvItensVenda.AllowUserToAddRows = false;
+            dgvItensVenda.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dgvItensVenda.AutoGenerateColumns = false;
+            dgvItensVenda.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvItensVenda.Columns.AddRange(new DataGridViewColumn[] { itemsDataGridViewTextBoxColumn, clientIdDataGridViewTextBoxColumn, createdAtDataGridViewTextBoxColumn, updatedAtDataGridViewTextBoxColumn, totalDataGridViewTextBoxColumn, idDataGridViewTextBoxColumn });
+            dgvItensVenda.DataSource = saleBindingSource;
+            dgvItensVenda.Location = new Point(30, 112);
+            dgvItensVenda.Name = "dgvItensVenda";
+            dgvItensVenda.ReadOnly = true;
+            dgvItensVenda.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvItensVenda.Size = new Size(598, 200);
+            dgvItensVenda.TabIndex = 10;
             // 
             // itemsDataGridViewTextBoxColumn
             // 
@@ -168,15 +145,6 @@
             // 
             saleBindingSource.DataSource = typeof(Domain.SaleAggregate.Sale);
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(57, 397);
-            label4.Name = "label4";
-            label4.Size = new Size(36, 15);
-            label4.TabIndex = 11;
-            label4.Text = "Total:";
-            // 
             // button2
             // 
             button2.Location = new Point(57, 464);
@@ -195,41 +163,135 @@
             button3.Text = "Cancelar";
             button3.UseVisualStyleBackColor = true;
             // 
+            // lblProduto
+            // 
+            lblProduto.AutoSize = true;
+            lblProduto.Location = new Point(30, 332);
+            lblProduto.Name = "lblProduto";
+            lblProduto.Size = new Size(50, 15);
+            lblProduto.TabIndex = 14;
+            lblProduto.Text = "Produto";
+            lblProduto.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // cmbProdutos
+            // 
+            cmbProdutos.FormattingEnabled = true;
+            cmbProdutos.Location = new Point(92, 332);
+            cmbProdutos.Name = "cmbProdutos";
+            cmbProdutos.Size = new Size(221, 23);
+            cmbProdutos.TabIndex = 15;
+            // 
+            // lblQuantidade
+            // 
+            lblQuantidade.AutoSize = true;
+            lblQuantidade.Location = new Point(331, 332);
+            lblQuantidade.Name = "lblQuantidade";
+            lblQuantidade.Size = new Size(72, 15);
+            lblQuantidade.TabIndex = 16;
+            lblQuantidade.Text = "Quantidade:";
+            // 
+            // nudQuantidade
+            // 
+            nudQuantidade.Location = new Point(409, 332);
+            nudQuantidade.Name = "nudQuantidade";
+            nudQuantidade.Size = new Size(49, 23);
+            nudQuantidade.TabIndex = 17;
+            nudQuantidade.TextAlign = HorizontalAlignment.Right;
+            // 
+            // btnAdicionarItem
+            // 
+            btnAdicionarItem.Location = new Point(478, 325);
+            btnAdicionarItem.Name = "btnAdicionarItem";
+            btnAdicionarItem.Size = new Size(150, 35);
+            btnAdicionarItem.TabIndex = 18;
+            btnAdicionarItem.Text = "Adicionar Item";
+            btnAdicionarItem.UseVisualStyleBackColor = true;
+            btnAdicionarItem.Click += btnAdicionarItem_Click;
+            // 
+            // lblTotal
+            // 
+            lblTotal.AutoSize = true;
+            lblTotal.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotal.Location = new Point(417, 382);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(127, 21);
+            lblTotal.TabIndex = 19;
+            lblTotal.Text = "Total da Venda:";
+            lblTotal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblTotalValor
+            // 
+            lblTotalValor.AutoSize = true;
+            lblTotalValor.BackColor = Color.LightYellow;
+            lblTotalValor.BorderStyle = BorderStyle.FixedSingle;
+            lblTotalValor.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalValor.Location = new Point(547, 382);
+            lblTotalValor.Name = "lblTotalValor";
+            lblTotalValor.Size = new Size(25, 27);
+            lblTotalValor.TabIndex = 20;
+            lblTotalValor.Text = "0";
+            lblTotalValor.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnCancelar
+            // 
+            btnCancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnCancelar.Location = new Point(30, 375);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(150, 45);
+            btnCancelar.TabIndex = 21;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
+            // 
+            // btnRegistrarVenda
+            // 
+            btnRegistrarVenda.Location = new Point(210, 375);
+            btnRegistrarVenda.Name = "btnRegistrarVenda";
+            btnRegistrarVenda.Size = new Size(180, 45);
+            btnRegistrarVenda.TabIndex = 22;
+            btnRegistrarVenda.Text = "Registrar Venda";
+            btnRegistrarVenda.UseVisualStyleBackColor = true;
+            btnRegistrarVenda.Click += btnRegistrarVenda_Click;
+            // 
             // FormVendas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(684, 461);
+            Controls.Add(btnRegistrarVenda);
+            Controls.Add(btnCancelar);
+            Controls.Add(lblTotalValor);
+            Controls.Add(lblTotal);
+            Controls.Add(btnAdicionarItem);
+            Controls.Add(nudQuantidade);
+            Controls.Add(lblQuantidade);
+            Controls.Add(cmbProdutos);
+            Controls.Add(lblProduto);
             Controls.Add(button3);
             Controls.Add(button2);
-            Controls.Add(label4);
-            Controls.Add(dataGridView1);
-            Controls.Add(button1);
-            Controls.Add(comboBox3);
-            Controls.Add(label1);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
-            Controls.Add(label2);
-            Controls.Add(label3);
+            Controls.Add(dgvItensVenda);
+            Controls.Add(cmbClientes);
+            Controls.Add(lblCliente);
+            Controls.Add(lblItensVenda);
             Name = "FormVendas";
-            Text = "FormVendas";
+            Text = "Vendas";
             Load += FormVendas_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvItensVenda).EndInit();
             ((System.ComponentModel.ISupportInitialize)saleBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudQuantidade).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label2;
-        private Label label3;
-        private ComboBox comboBox1;
+        private Label lblCliente;
+        private Label lblItensVenda;
+        private ComboBox cmbClientes;
         private ComboBox comboBox2;
         private ComboBox comboBox3;
         private Label label1;
-        private Button button1;
-        private DataGridView dataGridView1;
+        private DataGridView dgvItensVenda;
         private DataGridViewTextBoxColumn itemsDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn clientIdDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn createdAtDataGridViewTextBoxColumn;
@@ -240,5 +302,14 @@
         private Label label4;
         private Button button2;
         private Button button3;
+        private Label lblProduto;
+        private ComboBox cmbProdutos;
+        private Label lblQuantidade;
+        private NumericUpDown nudQuantidade;
+        private Button btnAdicionarItem;
+        private Label lblTotal;
+        private Label lblTotalValor;
+        private Button btnCancelar;
+        private Button btnRegistrarVenda;
     }
 }
