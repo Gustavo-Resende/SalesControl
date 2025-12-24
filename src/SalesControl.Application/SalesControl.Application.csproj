@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Sales\Dtos\" />
+    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>

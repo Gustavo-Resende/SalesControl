@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SalesControl.Domain.SaleAggregate;
-using SalesControl.Domain.SaleItemAggregate;
 
 namespace SalesControl.Infrastructure.Configurations
 {
@@ -19,13 +18,10 @@ namespace SalesControl.Infrastructure.Configurations
             // Total é calculado no domínio/consulta
             builder.Ignore(s => s.Total);
 
-            // Preserva encapsulamento (backing field _items)
-            builder.Metadata.FindNavigation(nameof(Sale.Items))!
-                   .SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            builder.HasMany<SaleItem>("_items")
+            builder.HasMany(s => s.Items)
                    .WithOne()
                    .HasForeignKey("sale_id")
+                   .HasPrincipalKey(s => s.Id)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

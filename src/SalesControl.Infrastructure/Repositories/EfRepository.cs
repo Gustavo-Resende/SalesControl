@@ -1,7 +1,7 @@
 using Ardalis.Specification.EntityFrameworkCore;
+using SalesControl.Application.Interfaces;
 using SalesControl.Domain;
 using SalesControl.Infrastructure.Persistence;
-using SalesControl.Application.Interfaces;
 
 namespace SalesControl.Infrastructure.Repositories
 {
@@ -10,7 +10,7 @@ namespace SalesControl.Infrastructure.Repositories
     /// Implementa a interface de domínio `IRepository<T>`.
     /// </summary>
     /// <typeparam name="T">Entidade agregada</typeparam>
-    public class EfRepository<T> : RepositoryBase<T>, IRepository<T>
+    public class EfRepository<T> : RepositoryBase<T>, IRepository<T>, IReadRepository<T>
         where T : class, IAggregateRoot
     {
         private readonly AppDbContext _dbContext;
