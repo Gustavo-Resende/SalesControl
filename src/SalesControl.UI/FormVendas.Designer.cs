@@ -37,13 +37,13 @@
             label1 = new Label();
             button1 = new Button();
             dataGridView1 = new DataGridView();
-            saleBindingSource = new BindingSource(components);
             itemsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             clientIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             createdAtDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             updatedAtDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             totalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            saleBindingSource = new BindingSource(components);
             label4 = new Label();
             button2 = new Button();
             button3 = new Button();
@@ -122,10 +122,6 @@
             dataGridView1.Size = new Size(506, 150);
             dataGridView1.TabIndex = 10;
             // 
-            // saleBindingSource
-            // 
-            saleBindingSource.DataSource = typeof(Domain.SaleAggregate.Sale);
-            // 
             // itemsDataGridViewTextBoxColumn
             // 
             itemsDataGridViewTextBoxColumn.DataPropertyName = "Items";
@@ -168,6 +164,10 @@
             idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
             idDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // saleBindingSource
+            // 
+            saleBindingSource.DataSource = typeof(Domain.SaleAggregate.Sale);
+            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -199,7 +199,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(530, 590);
+            ClientSize = new Size(684, 461);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(label4);

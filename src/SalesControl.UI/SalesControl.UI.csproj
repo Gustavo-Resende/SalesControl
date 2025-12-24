@@ -29,4 +29,10 @@
     <ProjectReference Include="..\SalesControl.Infrastructure\SalesControl.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="FormProdutos.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
 </Project>

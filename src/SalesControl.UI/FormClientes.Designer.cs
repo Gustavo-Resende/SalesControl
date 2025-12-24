@@ -166,6 +166,7 @@
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvClientes.Size = new Size(620, 230);
             dgvClientes.TabIndex = 26;
+            dgvClientes.CellContentClick += dgvClientes_CellContentClick;
             // 
             // FormClientes
             // 

@@ -224,5 +224,10 @@ namespace SalesControl.UI
         private void txtNome_TextChanged(object sender, EventArgs e)
         {
         }
+
+        private void dgvClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

@@ -13,7 +13,7 @@ using SalesControl.Application.Common;
 
 namespace SalesControl.Application.Products.Queries
 {
-    public record GetProductsListQuery(string? Search) : IQuery<Result<IReadOnlyCollection<ProductOutput>>>;
+    public record GetProductsListQuery() : IQuery<Result<IReadOnlyCollection<ProductOutput>>>;
 
     public class GetProductsListQueryHandler : IRequestHandler<GetProductsListQuery, Result<IReadOnlyCollection<ProductOutput>>>
     {
@@ -22,10 +22,7 @@ namespace SalesControl.Application.Products.Queries
 
         public async Task<Result<IReadOnlyCollection<ProductOutput>>> Handle(GetProductsListQuery request, CancellationToken cancellationToken)
         {
-            var products = string.IsNullOrWhiteSpace(request.Search)
-                ? await _repository.ListAsync(cancellationToken: cancellationToken)
-                : await _repository.ListAsync(new GetProductsByNameSpec(request.Search), cancellationToken);
-
+            var products = await _repository.ListAsync(cancellationToken: cancellationToken);
             var dtos = products.Select(p => p.ToDto()).ToArray();
             return Result<IReadOnlyCollection<ProductOutput>>.Success(dtos);
         }

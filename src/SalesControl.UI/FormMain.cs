@@ -22,7 +22,7 @@ namespace SalesControl.UI
 
         private void btnProduct_Click(object sender, EventArgs e)
         {
-            var formProdutos = new FormProdutos();
+            var formProdutos = new FormProdutos(_mediator);
             formProdutos.ShowDialog();
         }
 
