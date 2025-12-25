@@ -50,16 +50,14 @@ namespace SalesControl.Infrastructure.Services
                     var product = products.Single(p => p.Id == item.ProductId);
                     product.DecreaseStock(item.Quantity);
                     _db.Products.Update(product);
-                    await _db.SaveChangesAsync(cancellationToken);
                 }
-
+                // Save stock updates together with the sale in a single SaveChanges call to improve performance
                 var sale = new Sale(dto.ClientId);
                 foreach (var item in dto.Items)
                 {
                     var product = products.Single(p => p.Id == item.ProductId);
                     sale.AddItem(product.Id, item.Quantity, product.Price);
                 }
-
                 await _db.Sales.AddAsync(sale, cancellationToken);
                 await _db.SaveChangesAsync(cancellationToken);
                 await tx.CommitAsync(cancellationToken);
@@ -108,6 +106,32 @@ namespace SalesControl.Infrastructure.Services
             var total = items.Sum(i => i.LineTotal);
 
             return new SaleDetailDto(sale.Id, sale.ClientId, sale.CreatedAt, items, total);
+        }
+
+        public async Task<System.Collections.Generic.List<SaleReportRowDto>> GetSalesReportAsync(DateTime start, DateTime end, CancellationToken cancellationToken = default)
+        {
+            // Normalize dates and convert to UTC DateTimeOffset (Postgres timestamptz expects UTC offset)
+            var startDt = new DateTimeOffset(start.Date.ToUniversalTime(), TimeSpan.Zero);
+            var endDt = new DateTimeOffset(end.Date.AddDays(1).AddTicks(-1).ToUniversalTime(), TimeSpan.Zero);
+
+            // Query sales with items and join client/product info using single query (avoid nested queries that can cause concurrent DbContext usage)
+            var rows = await (from s in _db.Sales.AsNoTracking()
+                              join si in _db.SaleItems.AsNoTracking() on s.Id equals EF.Property<Guid>(si, "sale_id")
+                              join p in _db.Products.AsNoTracking() on si.ProductId equals p.Id
+                              join c in _db.Clients.AsNoTracking() on s.ClientId equals c.Id
+                              where s.CreatedAt >= startDt && s.CreatedAt <= endDt
+                              select new SaleReportRowDto
+                              {
+                                  SaleId = s.Id,
+                                  SaleDate = s.CreatedAt,
+                                  ClientName = c.Name,
+                                  ProductName = p.Name,
+                                  Quantity = si.Quantity,
+                                  UnitPrice = si.UnitPrice,
+                                  LineTotal = si.Quantity * si.UnitPrice
+                              }).ToListAsync(cancellationToken);
+
+            return rows;
         }
     }
 }

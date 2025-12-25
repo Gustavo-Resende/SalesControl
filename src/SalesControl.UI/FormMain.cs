@@ -32,11 +32,6 @@ namespace SalesControl.UI
             formVendas.ShowDialog();
         }
 
-        private void btnReport_Click_1(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void Main_Load(object sender, EventArgs e)
         {
             try
@@ -46,6 +41,12 @@ namespace SalesControl.UI
             {
                 MessageBox.Show($"Erro ao inicializar: {ex.Message}");
             }
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            var formRelatorio = new FormRelatorio(_mediator);
+            formRelatorio.ShowDialog();
         }
     }
 }

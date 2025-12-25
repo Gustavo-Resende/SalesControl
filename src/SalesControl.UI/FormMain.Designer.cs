@@ -33,6 +33,7 @@
             btnSale = new Button();
             label1 = new Label();
             label2 = new Label();
+            btnReport = new Button();
             SuspendLayout();
             // 
             // btnClients
@@ -84,11 +85,22 @@
             label2.TabIndex = 6;
             label2.Text = "SISTEMA DE VENDAS";
             // 
+            // btnReport
+            // 
+            btnReport.Location = new Point(193, 334);
+            btnReport.Name = "btnReport";
+            btnReport.Size = new Size(298, 34);
+            btnReport.TabIndex = 7;
+            btnReport.Text = "Relatorio";
+            btnReport.UseVisualStyleBackColor = true;
+            btnReport.Click += btnReport_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(684, 461);
+            Controls.Add(btnReport);
             Controls.Add(label2);
             Controls.Add(btnSale);
             Controls.Add(btnProduct);
@@ -109,5 +121,6 @@
         private Button btnSale;
         private Label label1;
         private Label label2;
+        private Button btnReport;
     }
 }

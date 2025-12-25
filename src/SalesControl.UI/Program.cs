@@ -64,7 +64,7 @@ namespace SalesControl.UI
                     services.AddTransient<FormClientes>();
                     services.AddTransient<FormProdutos>();
                     services.AddTransient<FormVendas>();
-                    // services.AddTransient<FormRelatorio>(); // ← adicione se tiver
+                    services.AddTransient<FormRelatorio>();
                 });
     }
 }

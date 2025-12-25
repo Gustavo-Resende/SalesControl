@@ -10,5 +10,7 @@ namespace SalesControl.Application.Interfaces
         Task<Guid> RegisterSaleAsync(RegisterSaleDto dto, CancellationToken cancellationToken = default);
 
         Task<SaleDetailDto?> GetSaleByIdAsync(Guid saleId, CancellationToken cancellationToken = default);
+        
+        Task<System.Collections.Generic.List<SaleReportRowDto>> GetSalesReportAsync(DateTime start, DateTime end, CancellationToken cancellationToken = default);
     }
 }
