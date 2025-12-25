@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SalesControl.Application\SalesControl.Application.csproj" />
     <ProjectReference Include="..\SalesControl.Domain\SalesControl.Domain.csproj" />
-    <ProjectReference Include="..\SalesControl.Tests\SalesControl.Tests.csproj" />
   </ItemGroup>
 
 </Project>
