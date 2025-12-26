@@ -39,11 +39,6 @@ namespace SalesControl.UI
 
         }
 
-        private async void FormProdutos_Load(object sender, EventArgs e)
-        {
-            await CarregarProdutosAsync();
-        }
-
         private async Task CarregarProdutosAsync()
         {
             try
@@ -252,9 +247,9 @@ namespace SalesControl.UI
             dgvProdutos.ClearSelection();
         }
 
-        private void FormProdutos_Load_1(object sender, EventArgs e)
+        private async void FormProdutos_Load_1(object sender, EventArgs e)
         {
-
+            await CarregarProdutosAsync();
         }
     }
 }
