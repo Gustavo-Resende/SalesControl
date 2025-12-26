@@ -1,93 +1,92 @@
 # SalesControl
-AplicaÁ„o de exemplo para gerenciar clientes, produtos e vendas com Windows Forms, PostgreSQL e ReportViewer.
+Aplica√ß√£o de exemplo para gerenciar clientes, produtos e vendas com Windows Forms, PostgreSQL e ReportViewer.
 
-Vis„o geral
+Vis√£o geral
 - Arquitetura: Clean-ish layered (UI / Application / Domain / Infrastructure)
 - Tecnologias: C# 13, .NET 10, WinForms, Entity Framework Core, Npgsql, ReportViewerCore.WinForms, MediatR
-- Banco: PostgreSQL (recomenda-se PostgreSQL 15+). Scripts de criaÁ„o est„o na pasta `databaseScript`.
+- Banco: PostgreSQL (recomenda-se PostgreSQL 15+). Scripts de cria√ß√£o est√£o na pasta `databaseScript`.
 
 Como executar
 1. Configure o banco PostgreSQL e crie a database. Execute os scripts em `databaseScript`.
 2. Atualize a connection string no `appsettings.json` do projeto `SalesControl.UI` (chave `DefaultConnection`).
-3. Abra a soluÁ„o no Visual Studio 2022/2023 ou rode via `dotnet`:
+3. Abra a solu√ß√£o no Visual Studio 2022/2023 ou rode via `dotnet`:
    - `dotnet build` na raiz
    - `dotnet run --project src/SalesControl.UI/SalesControl.UI.csproj`
 
-RelatÛrios (RDLC)
-- O projeto usa `ReportViewerCore.WinForms` (controle via cÛdigo). O arquivo RDLC est· em `src/SalesControl.UI/Relatorios/Report1.rdlc` e È incluÌdo como recurso embutido.
+Relat√≥rios (RDLC)
+- O projeto usa `ReportViewerCore.WinForms` (controle via c√≥digo). O arquivo RDLC est√° em `src/SalesControl.UI/Relatorios/Report1.rdlc` e √© inclu√≠do como recurso embutido.
 - Se o designer apresentar problemas ao associar tipos, use o `.xsd` tipado (`SaleReportDataSet.xsd`) ou passe um `DataTable` em runtime (como implementado no `FormRelatorio`).
 
 Testes
-- Testes unit·rios xUnit est„o em `src/SalesControl.Tests`. Para executar:
+- Testes unit√°rios xUnit est√£o em `src/SalesControl.Tests`. Para executar:
   - `dotnet test src/SalesControl.Tests/SalesControl.Tests.csproj`
 
-Decisıes tÈcnicas e justificativas (detalhado)
+Decis√µes t√©cnicas e justificativas (detalhado)
 
 - Arquitetura adotada: Clean-style em camadas
-  - Por que: separaÁ„o de responsabilidades melhora manutenÁ„o, testabilidade e clareza. O projeto est· dividido em:
-    - `SalesControl.UI`: interface Windows Forms ó respons·vel apenas por apresentar dados e capturar aÁıes do usu·rio.
-    - `SalesControl.Application`: lÛgica de aplicaÁ„o (DTOs, Commands/Queries, Handlers) ó orquestra regras sem acesso direto ao EF.
-    - `SalesControl.Domain`: entidades de domÌnio (models, regras e invariantes).
-    - `SalesControl.Infrastructure`: implementaÁ„o de persistÍncia (EF Core + Npgsql), repositÛrios e serviÁos concretos.
-  - BenefÌcio: facilita swap de infra (por exemplo mudar EF/DB) sem tocar regras de negÛcio; permite isolar e testar a lÛgica com mocks.
+  - Por que: separa√ß√£o de responsabilidades melhora manuten√ß√£o, testabilidade e clareza. O projeto est√° dividido em:
+    - `SalesControl.UI`: interface Windows Forms ‚Äî respons√°vel apenas por apresentar dados e capturar a√ß√µes do usu√°rio.
+    - `SalesControl.Application`: l√≥gica de aplica√ß√£o (DTOs, Commands/Queries, Handlers) ‚Äî orquestra regras sem acesso direto ao EF.
+    - `SalesControl.Domain`: entidades de dom√≠nio (models, regras e invariantes).
+    - `SalesControl.Infrastructure`: implementa√ß√£o de persist√™ncia (EF Core + Npgsql), reposit√≥rios e servi√ßos concretos.
+  - Benef√≠cio: facilita swap de infra (por exemplo mudar EF/DB) sem tocar regras de neg√≥cio; permite isolar e testar a l√≥gica com mocks.
 
-- Uso de interfaces e abstraÁıes
-  - `IRepository<T>`, `IReadRepository<T>` e `ISalesService` expıem contratos usados pela camada de Application/UI.
-  - Por que: favorece invers„o de dependÍncia, teste unit·rio (mocks/fakes) e clareza do contrato entre camadas.
+- Uso de interfaces e abstra√ß√µes
+  - `IRepository<T>`, `IReadRepository<T>` e `ISalesService` exp√µem contratos usados pela camada de Application/UI.
+  - Por que: favorece invers√£o de depend√™ncia, teste unit√°rio (mocks/fakes) e clareza do contrato entre camadas.
 
-- Padrıes e bibliotecas
-  - MediatR: centraliza Commands/Queries e promove separaÁ„o entre UI e handlers (Command/Query Responsibility Segregation simples).
-  - Ardalis.Result: padr„o leve para resultados (sucesso/erros) que evita exceÁıes para fluxo normal.
-  - Ardalis.Specification: abstraÁ„o para queries reutiliz·veis no repositÛrio.
+- Padr√µes e bibliotecas
+  - MediatR: centraliza Commands/Queries e promove separa√ß√£o entre UI e handlers (Command/Query Responsibility Segregation simples).
+  - Ardalis.Result: padr√£o leve para resultados (sucesso/erros) que evita exce√ß√µes para fluxo normal.
+  - Ardalis.Specification: abstra√ß√£o para queries reutiliz√°veis no reposit√≥rio.
 
 - Modelos usados (Entities, DTOs, ViewModels)
-  - Entities (Domain): representam invariantes e regras (ex.: `Product`, `Client`, `Sale`). ContÍm validaÁıes e mÈtodos que preservam consistÍncia (ex.: `DecreaseStock`).
-  - DTOs (Application layer): objetos de transferÍncia usados entre Handlers/Services/UI (ex.: `SaleReportRowDto`, `RegisterSaleDto`). Evitam expor entidades diretamente para UI.
-  - ViewModels (UI): modelos especÌficos para interaÁ„o com formul·rios (ex.: `RegisterSaleViewModel`). Permitem adaptar a visualizaÁ„o sem poluir domÌnio.
-  - Por que essa separaÁ„o: promove SRP (Single Responsibility Principle) e evita problemas de mapeamento bidirecional/estado compartilhado entre UI e domÌnio.
+  - Entities (Domain): representam invariantes e regras (ex.: `Product`, `Client`, `Sale`). Cont√™m valida√ß√µes e m√©todos que preservam consist√™ncia (ex.: `DecreaseStock`).
+  - DTOs (Application layer): objetos de transfer√™ncia usados entre Handlers/Services/UI (ex.: `SaleReportRowDto`, `RegisterSaleDto`). Evitam expor entidades diretamente para UI.
+  - ViewModels (UI): modelos espec√≠ficos para intera√ß√£o com formul√°rios (ex.: `RegisterSaleViewModel`). Permitem adaptar a visualiza√ß√£o sem poluir dom√≠nio.
+  - Por que essa separa√ß√£o: promove SRP (Single Responsibility Principle) e evita problemas de mapeamento bidirecional/estado compartilhado entre UI e dom√≠nio.
 
-- PersistÍncia e PostgreSQL
-  - Usamos Entity Framework Core com `Npgsql` (provider para PostgreSQL). Vers„o recomendada: PostgreSQL 15+.
-  - Por que EF Core: produtividade, mapeamento relational-to-object, migraÁıes (opcional) e integraÁ„o com LINQ.
-  - ObservaÁ„o sobre timestamps: armazenamos `DateTimeOffset.UtcNow` nas entidades e normalizamos filtros para UTC ao consultar para evitar problemas com `timestamptz` e offsets locais.
+- Persist√™ncia e PostgreSQL
+  - Usamos Entity Framework Core com `Npgsql` (provider para PostgreSQL). Vers√£o recomendada: PostgreSQL 15+.
+  - Por que EF Core: produtividade, mapeamento relational-to-object, migra√ß√µes (opcional) e integra√ß√£o com LINQ.
+  - Observa√ß√£o sobre timestamps: armazenamos `DateTimeOffset.UtcNow` nas entidades e normalizamos filtros para UTC ao consultar para evitar problemas com `timestamptz` e offsets locais.
 
-- TransaÁıes e integridade nas vendas
-  - Requisito: venda com transaÁ„o. Implementamos `RegisterSaleAsync` no `SalesService` usando `BeginTransactionAsync` + ˙nico `SaveChangesAsync` antes do Commit.
-  - Por que: garante atomicidade ó se qualquer item falhar (estoque insuficiente), a transaÁ„o È revertida e nada È persistido.
+- Transa√ß√µes e integridade nas vendas
+  - Requisito: venda com transa√ß√£o. Implementamos `RegisterSaleAsync` no `SalesService` usando `BeginTransactionAsync` + √∫nico `SaveChangesAsync` antes do Commit.
+  - Por que: garante atomicidade ‚Äî se qualquer item falhar (estoque insuficiente), a transa√ß√£o √© revertida e nada √© persistido.
 
-- Por que `ReportViewerCore.WinForms` (em vez do ReportViewer cl·ssico)
-  - O ReportViewer original (Microsoft.ReportViewer.*) n„o tem suporte oficial moderno para .NET 5+/6+/10 em Windows Forms sem workarounds. `ReportViewerCore.WinForms` È uma alternativa compatÌvel com .NET moderno que fornece controle LocalReport para renderizar RDLC.
+- Por que `ReportViewerCore.WinForms` (em vez do ReportViewer cl√°ssico)
+  - O ReportViewer original (Microsoft.ReportViewer.*) n√£o tem suporte oficial moderno para .NET 5+/6+/10 em Windows Forms sem workarounds. `ReportViewerCore.WinForms` √© uma alternativa compat√≠vel com .NET moderno que fornece controle LocalReport para renderizar RDLC.
   - Vantagens:
     - Funciona com .NET 10 e WinForms sem precisar portar o projeto para .NET Framework.
     - Permite carregar RDLC embutidos e vincular `ReportDataSource` em runtime (aceita `DataTable` ou `IEnumerable<T>`).
-  - Decis„o pr·tica no projeto: gerar o layout do RDLC no designer quando possÌvel e, em runtime, popular o relatÛrio com um `DataTable` (idempotente e desacoplado do designer que pode ter limitaÁıes em projetos SDK-style).
+  - Decis√£o pr√°tica no projeto: gerar o layout do RDLC no designer quando poss√≠vel e, em runtime, popular o relat√≥rio com um `DataTable` (idempotente e desacoplado do designer que pode ter limita√ß√µes em projetos SDK-style).
 
-- Escolha do formato de dados para o relatÛrio
+- Escolha do formato de dados para o relat√≥rio
   - Usamos `SaleReportRowDto` como estrutura de dados e no runtime criamos um `DataTable` com as mesmas colunas. Por que:
-    - Compatibilidade com RDLC: `DataTable` funciona de forma confi·vel como `ReportDataSource` mesmo quando o designer n„o consegue refletir tipos de assemblies SDK-style.
+    - Compatibilidade com RDLC: `DataTable` funciona de forma confi√°vel como `ReportDataSource` mesmo quando o designer n√£o consegue refletir tipos de assemblies SDK-style.
     - Simplicidade: evita depender do designer para descobrir tipos e funciona em deploy.
 
 - Async/await e acesso a dados
-  - Todas as operaÁıes assÌncronas (EF Core / Npgsql) usam async/await para n„o bloquear a UI thread. Em handlers/serviÁos usamos `async Task` com CancellationToken sempre que aplic·vel.
+  - Todas as opera√ß√µes ass√≠ncronas (EF Core / Npgsql) usam async/await para n√£o bloquear a UI thread. Em handlers/servi√ßos usamos `async Task` com CancellationToken sempre que aplic√°vel.
 
 - Testes
-  - Existem testes unit·rios b·sicos cobrindo domÌnio e `SalesService` (SQLite in-memory) para validar transaÁ„o/rollback.
-  - Por que SQLite in-memory: permite testes r·pidos e previsÌveis sem depender de infra externa. Para integraÁ„o completa, recomenda-se testes usando PostgreSQL real em ambiente de CI.
+  - Existem testes unit√°rios b√°sicos cobrindo dom√≠nio e `SalesService` (SQLite in-memory) para validar transa√ß√£o/rollback.
+  - Por que SQLite in-memory: permite testes r√°pidos e previs√≠veis sem depender de infra externa. Para integra√ß√£o completa, recomenda-se testes usando PostgreSQL real em ambiente de CI.
 
-
-O que falta/possÌveis melhorias
+O que falta/poss√≠veis melhorias:
 - Melhor tratamento e logging centralizado (ILogger).
-- Testes de integraÁ„o com PostgreSQL real.
-- Melhoria na UI/UX (WinForms È limitado).
-- 
-Requisitos mÌnimos (para rodar localmente)
+- Testes de integra√ß√£o com PostgreSQL real.
+- Melhoria na UI/UX (WinForms √© limitado).
+  
+Requisitos m√≠nimos (para rodar localmente)
 - Sistema Operacional: Windows (a UI usa WinForms).
-- .NET SDK: .NET 10 (instale a vers„o correspondente do SDK).
-- IDE (recomendada): Visual Studio 2022/2023 com workload de .NET Desktop; alternativa: VS Code + extensıes C# e .NET CLI.
-- Banco de dados: PostgreSQL 15+ (psql ou pgAdmin para executar scripts). Os scripts est„o na pasta `databaseScript`.
+- .NET SDK: .NET 10 (instale a vers√£o correspondente do SDK).
+- IDE (recomendada): Visual Studio 2022/2023 com workload de .NET Desktop; alternativa: VS Code + extens√µes C# e .NET CLI.
+- Banco de dados: PostgreSQL 15+ (psql ou pgAdmin para executar scripts). Os scripts est√£o na pasta `databaseScript`.
 - Ferramentas: dotnet CLI (dotnet build/run/test), psql (opcional para executar scripts SQL).
-- RDLC: para editar relatÛrios no designer do Visual Studio, instale a extens„o "Microsoft RDLC Report Designer" (opcional).
+- RDLC: para editar relat√≥rios no designer do Visual Studio, instale a extens√£o "Microsoft RDLC Report Designer" (opcional).
 
-ObservaÁıes r·pidas
-- Os testes unit·rios usam SQLite in-memory (n„o precisam do PostgreSQL).
+Observa√ß√µes r√°pidas
+- Os testes unit√°rios usam SQLite in-memory (n√£o precisam do PostgreSQL).
 - Verifique e ajuste a `DefaultConnection` em `src/SalesControl.UI/appsettings.json` antes de executar.
